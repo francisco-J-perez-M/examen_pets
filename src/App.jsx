@@ -11,9 +11,9 @@ const PetsTable = () => {
     // Función para obtener los datos de la API
     const fetchPets = async () => {
       try {
-        const response = await fetch('http://3.135.195.213:5000/pets');
+        const response = await fetch('http://3.135.195.213:5000/pets');  // Cambiar a HTTPS si es posible
         if (!response.ok) {
-          throw new Error('Error al obtener los datos');
+          throw new Error('Error al obtener los datos: ' + response.statusText);
         }
         const data = await response.json();
         setPets(data);
@@ -25,7 +25,7 @@ const PetsTable = () => {
     };
 
     fetchPets();
-  }, []);
+  }, []);  // Solo se ejecuta una vez, al cargar el componente
 
   // Filtrar las mascotas según el término de búsqueda
   const filteredPets = pets.filter(pet =>
@@ -51,26 +51,30 @@ const PetsTable = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-bar"
       />
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Raza</th>
-            <th>Edad</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredPets.map((pet) => (
-            <tr key={pet.id}>
-              <td>{pet.id}</td>
-              <td>{pet.nombre}</td>
-              <td>{pet.raza}</td>
-              <td>{pet.edad}</td>
+      {filteredPets.length === 0 ? (
+        <div className="no-results">No se encontraron resultados</div>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Raza</th>
+              <th>Edad</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredPets.map((pet) => (
+              <tr key={pet.id}>
+                <td>{pet.id}</td>
+                <td>{pet.nombre}</td>
+                <td>{pet.raza}</td>
+                <td>{pet.edad}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
