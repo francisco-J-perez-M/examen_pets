@@ -11,7 +11,7 @@ const PetsTable = () => {
     // Función para obtener los datos de la API
     const fetchPets = async () => {
       try {
-        const response = await fetch('/api/pets');
+        const response = await fetch('/pets');
         if (!response.ok) {
           throw new Error('Error al obtener los datos: ' + response.statusText);
         }
